@@ -1,18 +1,30 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $to = "mamadoudjeiladiallo@gmail.com";  // Your email
+    $subject = "New Message from Contact Form";
+
+    // Collect form data
     $name = htmlspecialchars($_POST['name']);
     $email = htmlspecialchars($_POST['email']);
     $message = htmlspecialchars($_POST['message']);
 
-    $to = "mamadoudjeiladiallo@gmail.com"; // Your email address
-    $subject = "New Message from Contact Form";
-    $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
-    $headers = "From: $email";
+    // Email content
+    $body = "You have received a new message from your website contact form:\n\n";
+    $body .= "Name: $name\n";
+    $body .= "Email: $email\n";
+    $body .= "Message:\n$message\n";
 
-    if (mail($to, $subject, $body, $headers)) {
-        echo "Message sent successfully!";
+    // Email headers
+    $headers = "From: $email" . "\r\n" .
+               "Reply-To: $email" . "\r\n" .
+               "X-Mailer: PHP/" . phpversion();
+
+    // Send email
+    if(mail($to, $subject, $body, $headers)){
+        echo "Message sent successfully.";
     } else {
         echo "Failed to send message.";
     }
 }
 ?>
+
